@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gioco Tris</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    .game-container {
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+      margin: 0 auto;
+    }
+
+    .cell {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 100px;
+      background-color: #fff;
+      font-size: 2em;
+      font-weight: bold;
+      cursor: pointer;
+      border: 2px solid #333;
+    }
+
+    .cell:hover {
+      background-color: #e0e0e0;
+    }
+
+    .cell.taken {
+      cursor: not-allowed;
+      background-color: #f0f0f0;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    .message span {
+      font-weight: bold;
+    }
+
+    .restart-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #3d85c6;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .restart-btn:hover {
+      background-color: #2d6f9a;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>Gioco Tris</h1>
+    <div class="grid">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+    <div class="message"></div>
+    <button class="restart-btn" onclick="restartGame()">Ricomincia</button>
+  </div>
+
+  <script>
+    const cells = document.querySelectorAll('.cell');
+    const messageDiv = document.querySelector('.message');
+    let currentPlayer = 'X'; // Il giocatore "X" inizia
+    let board = ['', '', '', '', '', '', '', '', ''];
+    let gameActive = true;
+
+    const winningCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    // Funzione per controllare se qualcuno ha vinto
+    function checkWin() {
+      for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          return board[a];
+        }
+      }
+      return null;
+    }
+
+    // Funzione per controllare se la partita è finita in pareggio
+    function checkDraw() {
+      return board.every(cell => cell !== '');
+    }
+
+    // Gestione del click sul quadrato
+    function handleCellClick(event) {
+      const cell = event.target;
+      const index = cell.getAttribute('data-index');
+
+      if (board[index] !== '' || !gameActive) {
+        return;
+      }
+
+      // Assegna il simbolo del giocatore corrente alla cella
+      board[index] = currentPlayer;
+      cell.textContent = currentPlayer;
+      cell.classList.add('taken');
+
+      // Controlla se il giocatore corrente ha vinto
+      const winner = checkWin();
+      if (winner) {
+        messageDiv.innerHTML = `<span>${winner}</span> ha vinto!`;
+        gameActive = false;
+        return;
+      }
+
+      // Controlla se la partita è finita in pareggio
+      if (checkDraw()) {
+        messageDiv.innerHTML = 'Pareggio!';
+        gameActive = false;
+        return;
+      }
+
+      // Cambia giocatore
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+
+    // Funzione per ricominciare il gioco
+    function restartGame() {
+      board = ['', '', '', '', '', '', '', '', ''];
+      cells.forEach(cell => {
+        cell.textContent = '';
+        cell.classList.remove('taken');
+      });
+      messageDiv.innerHTML = '';
+      gameActive = true;
+      currentPlayer = 'X'; // Riparte sempre "X"
+    }
+
+    // Aggiungi gli event listener per ogni cella
+    cells.forEach(cell => {
+      cell.addEventListener('click', handleCellClick);
+    });
+  </script>
+</body>
+</html>
