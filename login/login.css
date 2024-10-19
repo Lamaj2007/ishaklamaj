@@ -1,0 +1,117 @@
+/* Stile di base */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Georgia;
+    background: linear-gradient(135deg, #4b79a1, #283e51);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 0 20px 9px #ff61241f;
+}
+
+.input-group {
+    position: absolute;
+    width: 300px;
+    transition: 0.5s;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 0;
+    margin: 20px 0;
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 2px solid #999;
+    outline: none;
+    background: transparent;
+}
+
+.submit-btn {
+    width: 45%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: linear-gradient(to right, #ff105f, #ffad06);
+    border: 0;
+    outline: none;
+    color: white;
+    border-radius: 30px;
+}
+
+.button-box {
+    display: flex;
+    justify-content: center;
+    margin: 35px auto;
+    position: relative;
+    box-shadow: 0 0 20px 9px #ff61241f;
+    border-radius: 30px;
+    width: 220px;
+}
+
+.toggle-btn {
+    padding: 10px 30px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    position: relative;
+    font-size: 16px;
+}
+
+#btn {
+    position: absolute;
+    width: 110px;
+    height: 100%;
+    background: linear-gradient(to right, #ff105f, #ffad06);
+    border-radius: 30px;
+    transition: 0.5s;
+}
+
+#login-tab:checked ~ .button-box #btn {
+    left: 0;
+}
+
+#register-tab:checked ~ .button-box #btn {
+    left: 110px;
+}
+
+#login {
+    left: 50px;
+}
+
+#register {
+    left: 450px;
+}
+
+#login-tab:checked ~ #login {
+    left: 50px;
+}
+
+#login-tab:checked ~ #register {
+    left: 450px;
+}
+
+#register-tab:checked ~ #login {
+    left: -400px;
+}
+
+#register-tab:checked ~ #register {
+    left: 50px;
+}
+
+input[type="radio"] {
+    display: none;
+}
